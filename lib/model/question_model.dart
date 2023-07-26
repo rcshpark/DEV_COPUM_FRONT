@@ -1,11 +1,11 @@
-class BoardModel {
+class QuestionModel {
   int? statusCode;
   String? message;
   List<Result>? result;
 
-  BoardModel({this.statusCode, this.message, this.result});
+  QuestionModel({this.statusCode, this.message, this.result});
 
-  BoardModel.fromJson(Map<String, dynamic> json) {
+  QuestionModel.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     message = json['message'];
     if (json['result'] != null) {
