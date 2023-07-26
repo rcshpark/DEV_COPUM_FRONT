@@ -1,4 +1,4 @@
-import 'package:copum_front_update/model/provider/login_provider.dart';
+import 'package:copum_front_update/provider/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
