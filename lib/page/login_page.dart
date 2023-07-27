@@ -1,4 +1,6 @@
+import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/provider/login_provider.dart';
+import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +10,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<KakaoLoginProvider>(context);
+    final questionProvider = Provider.of<QuestionProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -76,7 +79,29 @@ class LoginPage extends StatelessWidget {
             ),
             onPressed: () async {
               await loginProvider.kakaoLogin();
-              print(loginProvider.targetPage);
+              await questionProvider.fetchData();
+              if (TargetPage.main == loginProvider.targetPage) {
+                // ignore: use_build_context_synchronously
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              } else {
+                // ignore: use_build_context_synchronously
+                showDialog(
+                    context: context,
+                    builder: (buildContext) {
+                      return AlertDialog(
+                        title: const Text('로그인 에러'),
+                        content: const Text('에러가 발생했습니다. 다시시도해주세요!'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('확인'))
+                        ],
+                      );
+                    });
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.yellow,
