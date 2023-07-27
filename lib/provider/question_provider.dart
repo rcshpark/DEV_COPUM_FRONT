@@ -10,11 +10,13 @@ String questionUrl = Platform.isAndroid
 
 class QuestionProvider with ChangeNotifier {
   QuestionModel questionModel = QuestionModel();
+
   fetchData() async {
     try {
       http.Response response = await http.get(Uri.parse(questionUrl));
       dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
       questionModel = QuestionModel.fromJson(body);
+      notifyListeners();
     } catch (e) {
       return e;
     }
