@@ -18,26 +18,37 @@ class _NewQuestionPageState extends State<NewQuestionPage> {
       return Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    questionCard(
-                        'park', '2023.11.11', 'title', "", "test content")
-                  ],
-                );
-              },
-              itemCount: 1,
-            ),
-          ),
+              child: p.questionModel.message == "질문 조회 성공"
+                  ? ListView.separated(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            questionCard(
+                                p.questionModel.result![index].creator,
+                                p.questionModel.result![index].createAt,
+                                p.questionModel.result![index].title,
+                                p.questionModel.result![index].questionImage,
+                                p.questionModel.result![index].content)
+                          ],
+                        );
+                      },
+                      itemCount: p.questionModel.result!.length,
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          height: 1,
+                          color: Colors.grey,
+                        );
+                      },
+                    )
+                  : const SizedBox()),
         ],
       );
     });
   }
 }
 
-Widget questionCard(String nickname, String createdAt, String title,
-    String imageURL, String content) {
+Widget questionCard(String? nickname, String? createdAt, String? title,
+    String? imageURL, String? content) {
   return Card(
     color: Colors.black,
     elevation: 4.0,
@@ -72,11 +83,11 @@ Widget questionCard(String nickname, String createdAt, String title,
             height: 30,
           ),
           Text(
-            title,
-            style: const TextStyle(color: Colors.grey, fontSize: 20),
+            title!,
+            style: const TextStyle(color: Colors.white, fontSize: 20),
             maxLines: 3,
           ),
-          imageURL.isEmpty
+          imageURL!.isEmpty
               ? const SizedBox()
               : Container(
                   color: Colors.white,
@@ -84,8 +95,8 @@ Widget questionCard(String nickname, String createdAt, String title,
                   height: 40,
                 ),
           Text(
-            content,
-            style: const TextStyle(color: Colors.grey, fontSize: 20),
+            content!,
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           )
         ],
       ),
