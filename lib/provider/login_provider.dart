@@ -1,10 +1,10 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 enum TargetPage { main, login }
 
@@ -18,6 +18,7 @@ class KakaoLoginProvider with ChangeNotifier {
 
   TargetPage _targetPage = TargetPage.login;
   TargetPage get targetPage => _targetPage;
+  static final storage = FlutterSecureStorage();
 
   kakaoLoginApi(String token) async {
     try {
@@ -35,11 +36,13 @@ class KakaoLoginProvider with ChangeNotifier {
   }
 
   Future kakaoLogin() async {
+    User user = await UserApi.instance.me();
     if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         dynamic result = await kakaoLoginApi(token.accessToken);
         if (result['status'] == 200) {
+          await storage.write(key: 'id', value: "${user.id}");
           _targetPage = TargetPage.main;
         } else {
           _targetPage = TargetPage.login;
@@ -57,6 +60,7 @@ class KakaoLoginProvider with ChangeNotifier {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           dynamic result = await kakaoLoginApi(token.accessToken);
           if (result['status'] == 200) {
+            await storage.write(key: 'id', value: "${user.id}");
             _targetPage = TargetPage.main;
           } else {
             _targetPage = TargetPage.login;
@@ -70,7 +74,9 @@ class KakaoLoginProvider with ChangeNotifier {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         dynamic result = await kakaoLoginApi(token.accessToken);
         if (result['status'] == 200) {
+          await storage.write(key: 'id', value: "${user.id}");
           _targetPage = TargetPage.main;
+          print(storage.read(key: 'id'));
         } else {
           _targetPage = TargetPage.login;
         }
