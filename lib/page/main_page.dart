@@ -1,5 +1,6 @@
+import 'package:copum_front_update/page/ask_question_page.dart';
 import 'package:copum_front_update/page/home_page.dart';
-import 'package:copum_front_update/page/login_page.dart';
+import 'package:copum_front_update/page/profile.dart';
 import 'package:copum_front_update/page/search_page.dart';
 import 'package:copum_front_update/provider/bottomNavigation_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
       return Scaffold(
         body: IndexedStack(
           index: p.currentPage,
-          children: [
-            const HomePage(),
-            const SearchPage(),
-            LoginPage(),
-            Container(),
+          children: const [
+            HomePage(),
+            SearchPage(),
+            ProfilePage(),
+            AskQuestionPage(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
