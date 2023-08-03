@@ -28,7 +28,7 @@ class QuestionModel {
 }
 
 class Result {
-  int? question;
+  int? questionId;
   String? category;
   String? title;
   String? content;
@@ -40,7 +40,7 @@ class Result {
   String? updateAt;
 
   Result(
-      {this.question,
+      {this.questionId,
       this.category,
       this.title,
       this.content,
@@ -52,7 +52,7 @@ class Result {
       this.updateAt});
 
   Result.fromJson(Map<String, dynamic> json) {
-    question = json['QUESTION_ID'];
+    questionId = json['QUESTION_ID'];
     category = json['CATEGORY'];
     title = json['TITLE'];
     content = json['CONTENT'];
@@ -65,8 +65,8 @@ class Result {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['QUESTION_ID'] = question;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['QUESTION_ID'] = questionId;
     data['CATEGORY'] = category;
     data['TITLE'] = title;
     data['CONTENT'] = content;
