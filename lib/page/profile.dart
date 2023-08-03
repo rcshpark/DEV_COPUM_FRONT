@@ -15,52 +15,45 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
-        title: const Text('프로필'),
+        title: const Text('내 프로필'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.settings))
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Center(
-            child: CircleAvatar(
-              backgroundColor: Colors.blueAccent,
-              radius: 60,
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 120),
-            child: Text(
-              '이름 : park sang hun',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 120),
-            child: Text(
-              '기술스택 :',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 120),
-            child: Text(
-              '경력 :',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(left: 10, top: 40, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.blueAccent,
+                  radius: 50,
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                const Text(
+                  '사용자이름',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+                const SizedBox(
+                  width: 120,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    style:
+                        TextButton.styleFrom(backgroundColor: Colors.white70),
+                    child: const Text(
+                      '수정하기',
+                      style: TextStyle(color: Colors.black54),
+                    )),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
