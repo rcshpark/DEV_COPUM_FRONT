@@ -1,4 +1,5 @@
 import 'package:copum_front_update/page/home_detail/question_detail_page.dart';
+import 'package:copum_front_update/provider/answer_provider.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class NewQuestionPage extends StatefulWidget {
 class _NewQuestionPageState extends State<NewQuestionPage> {
   @override
   Widget build(BuildContext context) {
+    final answerP = Provider.of<AnswerProvider>(context);
     return Consumer<QuestionProvider>(builder: (_, p, child) {
       return Column(
         children: [
@@ -24,12 +26,16 @@ class _NewQuestionPageState extends State<NewQuestionPage> {
                         return Column(
                           children: [
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
+                                await answerP.fetchData(
+                                    p.questionModel.result![index].questionId);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             QuestionDetailPage(
+                                                questionId: p.questionModel
+                                                    .result![index].questionId,
                                                 nickname: p.questionModel
                                                     .result![index].creator,
                                                 createdAt: p.questionModel
