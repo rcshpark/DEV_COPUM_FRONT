@@ -1,4 +1,5 @@
 import 'package:copum_front_update/page/home_page.dart';
+import 'package:copum_front_update/page/main_page.dart';
 import 'package:copum_front_update/provider/login_provider.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:flutter/material.dart';
@@ -82,8 +83,10 @@ class LoginPage extends StatelessWidget {
               await questionProvider.fetchData();
               if (TargetPage.main == loginProvider.targetPage) {
                 // ignore: use_build_context_synchronously
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BottomNavigation()));
               } else {
                 // ignore: use_build_context_synchronously
                 showDialog(

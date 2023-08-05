@@ -17,7 +17,7 @@ class QuestionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['status_code'] = statusCode;
     data['message'] = message;
     if (result != null) {
