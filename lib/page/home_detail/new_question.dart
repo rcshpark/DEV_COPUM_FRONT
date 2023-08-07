@@ -29,31 +29,35 @@ class _NewQuestionPageState extends State<NewQuestionPage> {
                               onTap: () async {
                                 await answerP.fetchData(
                                     p.questionModel.result![index].questionId);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            QuestionDetailPage(
-                                                questionId: p.questionModel
-                                                    .result![index].questionId,
-                                                nickname: p.questionModel
-                                                    .result![index].creator,
-                                                createdAt: p.questionModel
-                                                    .result![index].createAt,
-                                                title: p.questionModel
-                                                    .result![index].title,
-                                                imageURL: p
-                                                    .questionModel
-                                                    .result![index]
-                                                    .questionImage,
-                                                content: p.questionModel
-                                                    .result![index].content,
-                                                viewCount: p.questionModel
-                                                    .result![index].viewCount,
-                                                answerCount: p
-                                                    .questionModel
-                                                    .result![index]
-                                                    .answerCount)));
+                                if (mounted) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              QuestionDetailPage(
+                                                  questionId: p
+                                                      .questionModel
+                                                      .result![index]
+                                                      .questionId,
+                                                  nickname: p.questionModel
+                                                      .result![index].creator,
+                                                  createdAt: p.questionModel
+                                                      .result![index].createAt,
+                                                  title: p.questionModel
+                                                      .result![index].title,
+                                                  imageURL: p
+                                                      .questionModel
+                                                      .result![index]
+                                                      .questionImage,
+                                                  content: p.questionModel
+                                                      .result![index].content,
+                                                  viewCount: p.questionModel
+                                                      .result![index].viewCount,
+                                                  answerCount: p
+                                                      .questionModel
+                                                      .result![index]
+                                                      .answerCount)));
+                                }
                               },
                               child: questionCard(
                                 p.questionModel.result![index].creator,
