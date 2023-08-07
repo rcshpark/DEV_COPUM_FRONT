@@ -65,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(
-                                      height: 70,
+                                      height: 20,
                                     ),
                                     Text(
                                       "${p.searchModel.result![index].title}",
@@ -73,7 +73,7 @@ class _SearchPageState extends State<SearchPage> {
                                           color: p.searchModel.result![index]
                                                   .title!
                                                   .contains(keyword)
-                                              ? Colors.redAccent
+                                              ? Colors.white
                                               : Colors.white,
                                           fontSize: 20),
                                       maxLines: 3,
@@ -92,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
                                           color: p.searchModel.result![index]
                                                   .content!
                                                   .contains(keyword)
-                                              ? Colors.redAccent
+                                              ? Colors.white
                                               : Colors.white,
                                           fontSize: 20),
                                     )
