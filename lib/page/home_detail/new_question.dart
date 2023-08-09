@@ -87,6 +87,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> {
   }
 }
 
+// 질문 상세보기 Card UI
 Widget questionCard(String? nickname, String? createdAt, String? title,
     String? imageURL, String? content, String? viewCount, int? answerCount) {
   DateTime dateTime = DateTime.parse(createdAt!);
@@ -127,6 +128,7 @@ Widget questionCard(String? nickname, String? createdAt, String? title,
             title!,
             style: const TextStyle(color: Colors.white, fontSize: 20),
             maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(
             height: 5,

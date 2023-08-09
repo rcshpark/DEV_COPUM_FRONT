@@ -1,3 +1,4 @@
+import 'package:copum_front_update/page/answer_detail_page.dart';
 import 'package:copum_front_update/page/home_detail/new_question.dart';
 import 'package:copum_front_update/provider/answer_provider.dart';
 import 'package:flutter/material.dart';
@@ -124,11 +125,12 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
                               p.answerModel.result!.aNSWER![index].cREATEDDTTM);
                           return answerCard(
                               context,
-                              p.answerModel.result!.aNSWER![index].cONTENT,
+                              p.answerModel.result!.aNSWER![index].cREATOR,
                               formatTime,
                               "작성자 프로필",
                               widget.title,
-                              p.answerModel.result!.aNSWER![index].cONTENT);
+                              p.answerModel.result!.aNSWER![index].cONTENT,
+                              p.answerModel.result!.aNSWER![index].aNSWERIMAGE);
                         },
                         itemCount: p.answerModel.result!.aNSWER!.length,
                       )),
@@ -142,8 +144,14 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
   }
 }
 
-Widget answerCard(BuildContext context, String? profile, String? time,
-    String? questionUser, String? questionTitle, String? answerTitle) {
+Widget answerCard(
+    BuildContext context,
+    String? answerCreator,
+    String? time,
+    String? questionCreator,
+    String? questionTitle,
+    String? answerContent,
+    String? answerImage) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
   return Column(
@@ -154,7 +162,7 @@ Widget answerCard(BuildContext context, String? profile, String? time,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text("${profile!} * ",
+            Text("${answerCreator!} * ",
                 style: const TextStyle(color: Colors.green, fontSize: 12)),
             Text(time!,
                 style: const TextStyle(color: Colors.grey, fontSize: 12)),
@@ -170,58 +178,78 @@ Widget answerCard(BuildContext context, String? profile, String? time,
         children: [
           SizedBox(
             width: screenWidth * 0.85,
-            child: Card(
-                color: const Color.fromARGB(255, 224, 224, 220),
-                elevation: 4.0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, right: 15, top: 15, bottom: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            width: 40,
-                            child:
-                                Image.asset('assets/images/Service_name.png'),
-                          ),
-                          Text(questionUser!,
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 12))
-                        ],
-                      ),
-                      Text(
-                        questionTitle!,
-                        style:
-                            const TextStyle(color: Colors.grey, fontSize: 12),
-                        maxLines: 1,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Divider(
-                        height: 1,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Content : ${answerTitle!}",
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 16),
-                        maxLines: 2,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      )
-                    ],
-                  ),
-                )),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => AnswerDetailPage(
+                            creator: answerCreator,
+                            time: time,
+                            content: answerContent,
+                            answerImage: answerImage))));
+              },
+              child: Card(
+                  color: const Color.fromARGB(255, 224, 224, 220),
+                  elevation: 4.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15, right: 15, top: 15, bottom: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                              width: 40,
+                              child:
+                                  Image.asset('assets/images/Service_name.png'),
+                            ),
+                            Text(questionCreator!,
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12))
+                          ],
+                        ),
+                        Text(
+                          questionTitle!,
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
+                          maxLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Divider(
+                          height: 1,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Content : ${answerContent!}",
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 16),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        answerImage == null
+                            ? const SizedBox()
+                            : SizedBox(
+                                width: screenWidth * 0.30,
+                                height: screenHeight * .40,
+                                child: Image.network(answerImage!),
+                              )
+                      ],
+                    ),
+                  )),
+            ),
           ),
           IconButton(
               onPressed: () {},
