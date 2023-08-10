@@ -112,7 +112,7 @@ class ANSWER {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['ANSWER_ID'] = aNSWERID;
     data['QUESTION_ID'] = qUESTIONID;
     data['CONTENT'] = cONTENT;
