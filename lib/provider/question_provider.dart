@@ -35,4 +35,31 @@ class QuestionProvider with ChangeNotifier {
       return e;
     }
   }
+
+  insertQuestion(String email, String title, String content, List? category,
+      String? image) async {
+    try {
+      dynamic data = {
+        "EMAIL": email,
+        "TITLE": title,
+        "CONTENT": content,
+        "CATEGORY": category,
+        "QUESTION_IMAGE": image,
+      };
+      final String jsonString = jsonEncode(data);
+      http.Response response = await http.post(Uri.parse("$questionUrl/create"),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: jsonString);
+      dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
+      print(body['status']);
+      notifyListeners();
+      if (body['status'] == 200) {
+        return "success";
+      }
+    } catch (e) {
+      return e;
+    }
+  }
 }
