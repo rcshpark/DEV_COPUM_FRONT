@@ -1,4 +1,5 @@
 import 'package:copum_front_update/page/answer_detail_page.dart';
+import 'package:copum_front_update/page/ask_page.dart';
 import 'package:copum_front_update/page/home_detail/new_question.dart';
 import 'package:copum_front_update/provider/answer_provider.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,12 @@ String formatDate(String? time) {
   } else {
     return '${date.year}.${date.month}.${date.day}';
   }
+}
+
+double calculateCardHeight(String content, String imageUrl) {
+  double contentHeight = content.length * 0.02;
+  double imageHeight = imageUrl.isNotEmpty ? 100.0 : 0.0;
+  return contentHeight + imageHeight + 20;
 }
 
 class _QuestionDetailPageState extends State<QuestionDetailPage> {
@@ -91,7 +98,15 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
                         ),
                       )),
                   ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AskPage(
+                                    questionCreator: widget.nickname,
+                                    title: widget.title,
+                                    questionId: widget.questionId)));
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.greenAccent,
                         minimumSize: const Size(160, 44),
@@ -116,24 +131,23 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
             Consumer<AnswerProvider>(builder: (_, p, child) {
               return Column(
                 children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          String formatTime = formatDate(
-                              p.answerModel.result!.aNSWER![index].cREATEDDTTM);
-                          return answerCard(
-                              context,
-                              p.answerModel.result!.aNSWER![index].cREATOR,
-                              formatTime,
-                              "작성자 프로필",
-                              widget.title,
-                              p.answerModel.result!.aNSWER![index].cONTENT,
-                              p.answerModel.result!.aNSWER![index].aNSWERIMAGE);
-                        },
-                        itemCount: p.answerModel.result!.aNSWER!.length,
-                      )),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      String formatTime = formatDate(
+                          p.answerModel.result!.aNSWER![index].cREATEDDTTM);
+                      return answerCard(
+                          context,
+                          p.answerModel.result!.aNSWER![index].cREATOR,
+                          formatTime,
+                          "작성자 프로필",
+                          widget.title,
+                          p.answerModel.result!.aNSWER![index].cONTENT,
+                          p.answerModel.result!.aNSWER![index].aNSWERIMAGE);
+                    },
+                    itemCount: p.answerModel.result!.aNSWER!.length,
+                  ),
                 ],
               );
             })
