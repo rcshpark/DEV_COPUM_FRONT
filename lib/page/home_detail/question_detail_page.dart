@@ -1,21 +1,23 @@
+import 'dart:convert';
 import 'package:copum_front_update/page/answer_detail_page.dart';
 import 'package:copum_front_update/page/ask_page.dart';
 import 'package:copum_front_update/page/home_detail/new_question.dart';
 import 'package:copum_front_update/provider/answer_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:provider/provider.dart';
 
 class QuestionDetailPage extends StatefulWidget {
-  int? questionId;
-  String? nickname;
-  String? createdAt;
-  String? title;
-  String? imageURL;
-  String? content;
-  String? viewCount;
-  int? answerCount;
+  final int? questionId;
+  final String? nickname;
+  final String? createdAt;
+  final String? title;
+  final String? imageURL;
+  final String? content;
+  final String? viewCount;
+  final int? answerCount;
 
-  QuestionDetailPage(
+  const QuestionDetailPage(
       {required this.questionId,
       required this.nickname,
       required this.createdAt,
@@ -53,6 +55,8 @@ double calculateCardHeight(String content, String imageUrl) {
 }
 
 class _QuestionDetailPageState extends State<QuestionDetailPage> {
+  QuillController _controller = QuillController.basic();
+  String? test;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,16 +139,29 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      // try {
+                      //   dynamic formatContent =
+                      //       p.answerModel.result!.aNSWER![index].cONTENT;
+                      //   var myJSON = jsonDecode(formatContent);
+                      //   Delta delta = Delta.fromJson(myJSON);
+                      //   _controller = QuillController(
+                      //       document: Document.fromDelta(delta),
+                      //       selection:
+                      //           const TextSelection.collapsed(offset: 0));
+                      //   p.answerModel.result!.aNSWER![index].cONTENT =
+                      //       delta.toString();
+                      // } catch (e) {}
                       String formatTime = formatDate(
                           p.answerModel.result!.aNSWER![index].cREATEDDTTM);
                       return answerCard(
-                          context,
-                          p.answerModel.result!.aNSWER![index].cREATOR,
-                          formatTime,
-                          "작성자 프로필",
-                          widget.title,
-                          p.answerModel.result!.aNSWER![index].cONTENT,
-                          p.answerModel.result!.aNSWER![index].aNSWERIMAGE);
+                        context,
+                        p.answerModel.result!.aNSWER![index].cREATOR,
+                        formatTime,
+                        "작성자 프로필",
+                        widget.title,
+                        p.answerModel.result!.aNSWER![index].cONTENT,
+                        p.answerModel.result!.aNSWER![index].aNSWERIMAGE,
+                      );
                     },
                     itemCount: p.answerModel.result!.aNSWER!.length,
                   ),
@@ -168,6 +185,9 @@ Widget answerCard(
     String? answerImage) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
+  final delta = Delta.fromJson(jsonDecode(answerContent!));
+  final document = Document.fromDelta(delta);
+  FocusNode focusNode = FocusNode();
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -227,39 +247,57 @@ Widget answerCard(
                                     color: Colors.black, fontSize: 12))
                           ],
                         ),
-                        Text(
-                          questionTitle!,
-                          style:
-                              const TextStyle(color: Colors.grey, fontSize: 12),
-                          maxLines: 1,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Divider(
-                          height: 1,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Content : ${answerContent!}",
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 16),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        answerImage == null
-                            ? const SizedBox()
-                            : SizedBox(
-                                width: screenWidth * 0.30,
-                                height: screenHeight * .40,
-                                child: Image.network(answerImage!),
-                              )
+                        IgnorePointer(
+                          ignoring: true,
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 224, 224, 220),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            constraints: const BoxConstraints(
+                                minHeight: 100,
+                                minWidth: double.infinity,
+                                maxHeight: 200),
+                            child: QuillEditor(
+                              controller: QuillController(
+                                  document: document,
+                                  selection:
+                                      const TextSelection.collapsed(offset: 0)),
+                              scrollController: ScrollController(),
+                              scrollable: true,
+                              focusNode: focusNode,
+                              autoFocus: false,
+                              readOnly: true,
+                              showCursor: true,
+                              padding: const EdgeInsets.all(4),
+                              expands: true,
+                            ),
+                          ),
+                        )
+                        // Text(
+                        //   questionTitle!,
+                        //   style:
+                        //       const TextStyle(color: Colors.grey, fontSize: 12),
+                        //   maxLines: 1,
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        //
+                        // const Divider(
+                        //   height: 1,
+                        //   color: Colors.grey,
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Text(
+                        //   "Content : ${answerContent!}",
+                        //   style: const TextStyle(
+                        //       color: Colors.black, fontSize: 16),
+                        //   maxLines: 2,
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
                       ],
                     ),
                   )),
@@ -272,6 +310,9 @@ Widget answerCard(
                 color: Colors.grey,
               ))
         ],
+      ),
+      const SizedBox(
+        height: 20,
       )
     ],
   );

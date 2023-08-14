@@ -7,10 +7,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class AskPage extends StatefulWidget {
-  String? questionCreator;
-  String? title;
-  int? questionId;
-  AskPage(
+  final String? questionCreator;
+  final String? title;
+  final int? questionId;
+  const AskPage(
       {required this.questionCreator,
       required this.title,
       required this.questionId,

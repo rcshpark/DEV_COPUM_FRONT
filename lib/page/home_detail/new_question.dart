@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:copum_front_update/page/home_detail/question_detail_page.dart';
 import 'package:copum_front_update/provider/answer_provider.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -13,6 +16,8 @@ class NewQuestionPage extends StatefulWidget {
 }
 
 class _NewQuestionPageState extends State<NewQuestionPage> {
+  QuillController _controller = QuillController.basic();
+
   @override
   Widget build(BuildContext context) {
     final answerP = Provider.of<AnswerProvider>(context);
@@ -27,6 +32,7 @@ class _NewQuestionPageState extends State<NewQuestionPage> {
                           children: [
                             InkWell(
                               onTap: () async {
+                                // 클릭한 질문에 대한 답변글들 조회 -> page 이동
                                 await answerP.fetchData(
                                     p.questionModel.result![index].questionId);
                                 if (mounted) {
@@ -90,13 +96,16 @@ class _NewQuestionPageState extends State<NewQuestionPage> {
 // 질문 상세보기 Card UI
 Widget questionCard(String? nickname, String? createdAt, String? title,
     String? imageURL, String? content, String? viewCount, int? answerCount) {
+  final delta = Delta.fromJson(jsonDecode(content!));
+  final document = Document.fromDelta(delta);
+  FocusNode focusNode = FocusNode();
   DateTime dateTime = DateTime.parse(createdAt!);
   return Card(
     color: Colors.black,
     elevation: 4.0,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     child: Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20),
+      padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -122,7 +131,7 @@ Widget questionCard(String? nickname, String? createdAt, String? title,
             ],
           ),
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
           Text(
             title!,
@@ -143,9 +152,30 @@ Widget questionCard(String? nickname, String? createdAt, String? title,
           const SizedBox(
             height: 5,
           ),
-          Text(
-            content!,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+          IgnorePointer(
+            ignoring: true,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 56, 59, 61),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              constraints: const BoxConstraints(
+                  minHeight: 100, minWidth: double.infinity, maxHeight: 200),
+              child: QuillEditor(
+                controller: QuillController(
+                    document: document,
+                    selection: const TextSelection.collapsed(offset: 0)),
+                scrollController: ScrollController(),
+                scrollable: true,
+                focusNode: focusNode,
+                autoFocus: false,
+                readOnly: true,
+                showCursor: true,
+                padding: const EdgeInsets.all(4),
+                expands: true,
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,

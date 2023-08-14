@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 class AnswerDetailPage extends StatelessWidget {
-  String? creator;
-  String? time;
-  String? content;
-  String? answerImage;
-  AnswerDetailPage(
+  final String? creator;
+  final String? time;
+  final String? content;
+  final String? answerImage;
+  const AnswerDetailPage(
       {required this.creator,
       required this.time,
       required this.content,
@@ -30,6 +33,9 @@ class AnswerDetailPage extends StatelessWidget {
 
 Widget answerDetailCard(
     String? creator, String? time, String? content, String? answerImage) {
+  final delta = Delta.fromJson(jsonDecode(content!));
+  final document = Document.fromDelta(delta);
+  FocusNode focusNode = FocusNode();
   return Card(
     color: Colors.black,
     elevation: 4.0,
@@ -63,12 +69,30 @@ Widget answerDetailCard(
           const SizedBox(
             height: 30,
           ),
-          Text(
-            content!,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          const SizedBox(
-            height: 5,
+          IgnorePointer(
+            ignoring: true,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 56, 59, 61),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              constraints: const BoxConstraints(
+                  minHeight: 100, minWidth: double.infinity, maxHeight: 200),
+              child: QuillEditor(
+                controller: QuillController(
+                    document: document,
+                    selection: const TextSelection.collapsed(offset: 0)),
+                scrollController: ScrollController(),
+                scrollable: true,
+                focusNode: focusNode,
+                autoFocus: false,
+                readOnly: true,
+                showCursor: true,
+                padding: const EdgeInsets.all(4),
+                expands: true,
+              ),
+            ),
           ),
           answerImage == null
               ? const SizedBox()
