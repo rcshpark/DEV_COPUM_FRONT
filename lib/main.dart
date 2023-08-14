@@ -1,5 +1,14 @@
-import 'package:copum_front_update/model/provider/login_provider.dart';
+import 'package:copum_front_update/page/insert_question_page.dart';
+import 'package:copum_front_update/page/home_detail/new_question.dart';
+import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/page/login_page.dart';
+import 'package:copum_front_update/page/main_page.dart';
+import 'package:copum_front_update/page/search_page.dart';
+import 'package:copum_front_update/provider/answer_provider.dart';
+import 'package:copum_front_update/provider/bottomNavigation_provider.dart';
+import 'package:copum_front_update/provider/login_provider.dart';
+import 'package:copum_front_update/provider/question_provider.dart';
+import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +25,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: ((context) => KakaoLoginProvider()))
+      ChangeNotifierProvider(create: ((context) => KakaoLoginProvider())),
+      ChangeNotifierProvider(create: ((context) => QuestionProvider())),
+      ChangeNotifierProvider(create: ((context) => BottomNavigationProvider())),
+      ChangeNotifierProvider(create: ((context) => AnswerProvider())),
+      ChangeNotifierProvider(create: ((context) => UserInfoProvider())),
     ], child: const MaterialApp(home: Intro()));
   }
 }
