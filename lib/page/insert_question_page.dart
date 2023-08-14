@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
+import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -61,6 +62,7 @@ class _AskQuestionPageState extends State<AskQuestionPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<QuestionProvider>(context);
+    final userProvider = Provider.of<UserInfoProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -71,9 +73,10 @@ class _AskQuestionPageState extends State<AskQuestionPage> {
               onPressed: () async {
                 var content =
                     jsonEncode(_controller.document.toDelta().toJson());
+                await userProvider.fetchData();
                 if (titleController.text.isNotEmpty && content.isNotEmpty) {
                   String response = await provider.insertQuestion(
-                      'simondr2@kakao.com',
+                      userProvider.userModel.email,
                       titleController.text,
                       content,
                       selectedItems,

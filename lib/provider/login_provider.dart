@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:copum_front_update/provider/question_provider.dart';
+import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -15,7 +17,7 @@ String baseUrl = Platform.isAndroid
 class KakaoLoginProvider with ChangeNotifier {
   // late UserModel _userModel;
   // UserModel get userModel => _userModel;
-
+  final UserInfoProvider userP = UserInfoProvider();
   TargetPage _targetPage = TargetPage.login;
   TargetPage get targetPage => _targetPage;
   static final storage = FlutterSecureStorage();
@@ -42,7 +44,11 @@ class KakaoLoginProvider with ChangeNotifier {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         dynamic result = await kakaoLoginApi(token.accessToken);
         if (result['status'] == 200) {
-          await storage.write(key: 'id', value: "${user.id}");
+          await userP.insertUserData(
+              user.id,
+              user.kakaoAccount!.email,
+              user.kakaoAccount!.profile!.nickname,
+              user.kakaoAccount!.profile!.profileImageUrl);
           _targetPage = TargetPage.main;
         } else {
           _targetPage = TargetPage.login;
@@ -60,7 +66,11 @@ class KakaoLoginProvider with ChangeNotifier {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           dynamic result = await kakaoLoginApi(token.accessToken);
           if (result['status'] == 200) {
-            await storage.write(key: 'id', value: "${user.id}");
+            await userP.insertUserData(
+                user.id,
+                user.kakaoAccount!.email,
+                user.kakaoAccount!.profile!.nickname,
+                user.kakaoAccount!.profile!.profileImageUrl);
             _targetPage = TargetPage.main;
           } else {
             _targetPage = TargetPage.login;
@@ -74,9 +84,12 @@ class KakaoLoginProvider with ChangeNotifier {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         dynamic result = await kakaoLoginApi(token.accessToken);
         if (result['status'] == 200) {
-          await storage.write(key: 'id', value: "${user.id}");
+          await userP.insertUserData(
+              user.id,
+              user.kakaoAccount!.email,
+              user.kakaoAccount!.profile!.nickname,
+              user.kakaoAccount!.profile!.profileImageUrl);
           _targetPage = TargetPage.main;
-          print(storage.read(key: 'id'));
         } else {
           _targetPage = TargetPage.login;
         }
