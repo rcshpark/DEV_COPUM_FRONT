@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:copum_front_update/model/user_model.dart';
+import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,38 +27,40 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, top: 40, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.blueAccent,
-                  radius: 50,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                const Text(
-                  '사용자이름',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                const SizedBox(
-                  width: 120,
-                ),
-                TextButton(
-                    onPressed: () {},
-                    style:
-                        TextButton.styleFrom(backgroundColor: Colors.white70),
-                    child: const Text(
-                      '수정하기',
-                      style: TextStyle(color: Colors.black54),
-                    )),
-              ],
-            )
-          ],
-        ),
+        child: Consumer<UserInfoProvider>(builder: (_, p, child) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.blueAccent,
+                    radius: 50,
+                    backgroundImage:
+                        NetworkImage("${p.userModel.profileImage}"),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    "${p.userModel.nickname}",
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                      onPressed: () {},
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.white70),
+                      child: const Text(
+                        '수정하기',
+                        style: TextStyle(color: Colors.black54),
+                      )),
+                ],
+              )
+            ],
+          );
+        }),
       ),
     );
   }

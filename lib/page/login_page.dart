@@ -2,6 +2,7 @@ import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/page/main_page.dart';
 import 'package:copum_front_update/provider/login_provider.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
+import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +11,11 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<KakaoLoginProvider>(context);
-    final questionProvider = Provider.of<QuestionProvider>(context);
+    final loginProvider =
+        Provider.of<KakaoLoginProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    final userProvider = Provider.of<UserInfoProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -81,6 +85,7 @@ class LoginPage extends StatelessWidget {
             onPressed: () async {
               await loginProvider.kakaoLogin();
               await questionProvider.fetchData();
+              await userProvider.fetchData();
               if (TargetPage.main == loginProvider.targetPage) {
                 // ignore: use_build_context_synchronously
                 Navigator.push(
