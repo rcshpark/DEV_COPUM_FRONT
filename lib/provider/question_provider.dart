@@ -36,7 +36,7 @@ class QuestionProvider with ChangeNotifier {
     }
   }
 
-  insertQuestion(String email, String title, String content, List? category,
+  insertQuestion(String? email, String title, String content, List? category,
       String? image) async {
     try {
       dynamic data = {

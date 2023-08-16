@@ -79,73 +79,76 @@ class _AskPageState extends State<AskPage> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey),
-                        child: const Text(''),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, top: 20, right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey),
+                          child: const Text(''),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      '${widget.questionCreator}',
-                      style: const TextStyle(color: Colors.white),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "${widget.title}",
-                  style: const TextStyle(color: Colors.grey),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text("내용",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 56, 59, 61),
-                    borderRadius: BorderRadius.circular(8.0),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '${widget.questionCreator}',
+                        style: const TextStyle(color: Colors.white),
+                      )
+                    ],
                   ),
-                  constraints: const BoxConstraints(
-                      minHeight: 100,
-                      minWidth: double.infinity,
-                      maxHeight: 500),
-                  child: QuillEditor(
-                    controller: _controller,
-                    scrollController: ScrollController(),
-                    scrollable: true,
-                    focusNode: editorFocus,
-                    autoFocus: false,
-                    readOnly: false,
-                    showCursor: true,
-                    padding: const EdgeInsets.all(4),
-                    expands: true,
+                  const SizedBox(
+                    height: 15,
                   ),
-                ),
-              ],
+                  Text(
+                    "${widget.title}",
+                    style: const TextStyle(color: Colors.grey),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text("내용",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 56, 59, 61),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    constraints: const BoxConstraints(
+                        minHeight: 100,
+                        minWidth: double.infinity,
+                        maxHeight: 500),
+                    child: QuillEditor(
+                      controller: _controller,
+                      scrollController: ScrollController(),
+                      scrollable: true,
+                      focusNode: editorFocus,
+                      autoFocus: false,
+                      readOnly: false,
+                      showCursor: true,
+                      padding: const EdgeInsets.all(4),
+                      expands: true,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           editorFocused

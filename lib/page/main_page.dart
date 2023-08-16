@@ -1,4 +1,4 @@
-import 'package:copum_front_update/page/ask_question_page.dart';
+import 'package:copum_front_update/page/insert_question_page.dart';
 import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/page/profile.dart';
 import 'package:copum_front_update/page/search_page.dart';

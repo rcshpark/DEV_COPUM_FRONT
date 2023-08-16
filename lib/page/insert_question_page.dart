@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:copum_front_update/page/home_page.dart';
+import 'package:copum_front_update/page/main_page.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,7 @@ class _AskQuestionPageState extends State<AskQuestionPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: ((context) =>
-                                                  const HomePage())));
+                                                  const BottomNavigation())));
                                     },
                                     child: const Text('확인')),
                               ],
