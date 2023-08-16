@@ -1,5 +1,5 @@
-import 'package:copum_front_update/page/home_detail/new_question.dart';
-import 'package:copum_front_update/page/login_page.dart';
+import 'package:copum_front_update/page/home_detail/my_question_page.dart';
+import 'package:copum_front_update/page/home_detail/new_question_page.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage>
               children: [
                 NewQuestionPage(),
                 Text('data'),
-                Text('data'),
+                MyQuestionPage(),
                 Text('data'),
               ],
             ))

@@ -11,7 +11,8 @@ String questionUrl = Platform.isAndroid
 class QuestionProvider with ChangeNotifier {
   QuestionModel questionModel = QuestionModel();
   QuestionModel searchModel = QuestionModel();
-
+  Result myQModel = Result();
+  // 전체 데이터 불러오는 함수
   fetchData() async {
     try {
       http.Response response =
@@ -24,6 +25,7 @@ class QuestionProvider with ChangeNotifier {
     }
   }
 
+  // 검색기능 함수
   searchData(String content) async {
     try {
       http.Response response =
@@ -36,6 +38,7 @@ class QuestionProvider with ChangeNotifier {
     }
   }
 
+  // 질문하기 함수
   insertQuestion(String? email, String title, String content, List? category,
       String? image) async {
     try {
@@ -62,4 +65,15 @@ class QuestionProvider with ChangeNotifier {
       return e;
     }
   }
+
+  // // 내 질문 검색 함수
+  // myQuestionData(int? myId) async {
+  //   for (var i in questionModel.result!) {
+  //     String? creator = i.creator;
+  //     if (myId.toString() == creator) {
+  //       Result.fromJson(i);
+  //       print(i);
+  //     }
+  //   }
+  // }
 }

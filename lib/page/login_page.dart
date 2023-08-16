@@ -86,6 +86,7 @@ class LoginPage extends StatelessWidget {
               await loginProvider.kakaoLogin();
               await questionProvider.fetchData();
               await userProvider.fetchData();
+              // await questionProvider.myQuestionData(userProvider.userModel.id);
               if (TargetPage.main == loginProvider.targetPage) {
                 // ignore: use_build_context_synchronously
                 Navigator.push(
