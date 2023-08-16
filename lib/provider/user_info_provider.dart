@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserInfoProvider with ChangeNotifier {
-  UserModel userModel = UserModel(0, '', '', '');
+  UserModel userModel = UserModel();
   final storage = FlutterSecureStorage();
   insertUserData(
       int id, String? email, String? nickname, String? profileImage) async {
