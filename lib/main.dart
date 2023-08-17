@@ -1,5 +1,5 @@
 import 'package:copum_front_update/page/insert_question_page.dart';
-import 'package:copum_front_update/page/home_detail/new_question.dart';
+import 'package:copum_front_update/page/home_detail/new_question_page.dart';
 import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/page/login_page.dart';
 import 'package:copum_front_update/page/main_page.dart';
