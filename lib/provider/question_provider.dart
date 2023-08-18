@@ -67,13 +67,14 @@ class QuestionProvider with ChangeNotifier {
   }
 
   // // 내 질문 검색 함수
-  // myQuestionData(int? myId) async {
-  //   for (var i in questionModel.result!) {
-  //     String? creator = i.creator;
-  //     if (myId.toString() == creator) {
-  //       Result.fromJson(i);
-  //       print(i);
-  //     }
-  //   }
-  // }
+  myQuestionData(int? myId) async {
+    for (var i in questionModel.result!) {
+      String? creator = i.creator;
+      if (myId.toString() == creator) {
+        questionModel.result.where((e) {
+            questionModel.result![e] = 
+        } )
+      }
+    }
+  }
 }
