@@ -1,9 +1,5 @@
-import 'package:copum_front_update/page/insert_question_page.dart';
-import 'package:copum_front_update/page/home_detail/new_question_page.dart';
-import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/page/login_page.dart';
 import 'package:copum_front_update/page/main_page.dart';
-import 'package:copum_front_update/page/search_page.dart';
 import 'package:copum_front_update/provider/answer_provider.dart';
 import 'package:copum_front_update/provider/bottomNavigation_provider.dart';
 import 'package:copum_front_update/provider/login_provider.dart';
@@ -39,10 +35,25 @@ class Intro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-        const Duration(seconds: 2),
-        (() => Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => const LoginPage())))));
+    final loginProvider =
+        Provider.of<KakaoLoginProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    final userProvider = Provider.of<UserInfoProvider>(context, listen: false);
+    Future.delayed(const Duration(seconds: 2), (() async {
+      await loginProvider.autoLogin();
+      if (TargetPage.main == loginProvider.targetPage) {
+        await questionProvider.fetchData();
+        await userProvider.fetchData();
+        // ignore: use_build_context_synchronously
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const BottomNavigation()));
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.push(context,
+            MaterialPageRoute(builder: ((context) => const LoginPage())));
+      }
+    }));
     return const Scaffold(
       backgroundColor: Colors.black,
       body: Padding(

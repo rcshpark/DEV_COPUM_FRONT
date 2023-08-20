@@ -8,6 +8,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../model/user_model.dart';
+
 enum TargetPage { main, login }
 
 String baseUrl = Platform.isAndroid
@@ -15,12 +17,11 @@ String baseUrl = Platform.isAndroid
     : 'http://127.0.0.1:8000/users/login/kakao';
 
 class KakaoLoginProvider with ChangeNotifier {
-  // late UserModel _userModel;
-  // UserModel get userModel => _userModel;
   final UserInfoProvider userP = UserInfoProvider();
   TargetPage _targetPage = TargetPage.login;
   TargetPage get targetPage => _targetPage;
   static final storage = FlutterSecureStorage();
+  UserModel userModel = UserModel();
 
   kakaoLoginApi(String token) async {
     try {
@@ -98,29 +99,15 @@ class KakaoLoginProvider with ChangeNotifier {
       }
     }
   }
+
+  autoLogin() async {
+    String? userData = await storage.read(key: 'user');
+    if (userData != null) {
+      Map<String, dynamic> data = json.decode(userData);
+      userModel = UserModel.fromJson(data);
+      _targetPage = TargetPage.main;
+    } else {
+      _targetPage = TargetPage.login;
+    }
+  }
 }
-//   autoLogin() async {
-//     final allValue = await storage.readAll();
-//     print("######## $allValue");
-//     final refreshToken = await storage.read(key: "refreshToken");
-//     final kakaoProfile = await storage.read(key: "kakaoProfile");
-
-//     if (kakaoProfile != null) {
-//       var userData = await FirebaseFirestore.instance
-//           .collection('회원정보')
-//           .doc(kakaoProfile)
-//           .get();
-//       String vailidToken = userData['refresh_token'];
-//       dynamic jsonData = userData.data();
-//       if (vailidToken == refreshToken) {
-//         _userModel = UserModel.fromJson(jsonData);
-//         _targetPage = TargetPage.main;
-//         return kakaoProfile;
-//       } else {
-//         _targetPage = TargetPage.login;
-//       }
-//     } else {
-//       _targetPage = TargetPage.login;
-//     }
-//   }
-
