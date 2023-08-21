@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:copum_front_update/provider/answer_provider.dart';
+import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -49,6 +50,7 @@ class _AskPageState extends State<AskPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AnswerProvider>(context);
+    final userP = Provider.of<UserInfoProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -57,12 +59,15 @@ class _AskPageState extends State<AskPage> {
         actions: [
           TextButton(
               onPressed: () async {
-                var creator = await storage.read(key: 'id');
+                var creator = userP.userModel.id;
                 var content =
                     jsonEncode(_controller.document.toDelta().toJson());
                 if (content.isNotEmpty) {
                   String? response = await provider.insertAnswer(
-                      widget.questionId.toString(), creator, content, null);
+                      widget.questionId.toString(),
+                      creator.toString(),
+                      content,
+                      null);
                   if (response == 'success') {
                     await provider.fetchData(widget.questionId);
                     Navigator.pop(context);

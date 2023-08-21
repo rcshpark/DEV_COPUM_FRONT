@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:copum_front_update/page/home_page.dart';
 import 'package:copum_front_update/page/main_page.dart';
+import 'package:copum_front_update/provider/bottomNavigation_provider.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +65,11 @@ class _AskQuestionPageState extends State<AskQuestionPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<QuestionProvider>(context);
     final userProvider = Provider.of<UserInfoProvider>(context);
+    final indexP = Provider.of<BottomNavigationProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         title: const Text('질문하기'),
         actions: [
@@ -94,6 +97,7 @@ class _AskQuestionPageState extends State<AskQuestionPage> {
                                 TextButton(
                                     onPressed: () async {
                                       await provider.fetchData();
+                                      await indexP.resetIndex();
                                       // ignore: use_build_context_synchronously
                                       Navigator.push(
                                           context,

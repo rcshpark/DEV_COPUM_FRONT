@@ -39,11 +39,11 @@ class KakaoLoginProvider with ChangeNotifier {
   }
 
   Future kakaoLogin() async {
-    User user = await UserApi.instance.me();
     if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         dynamic result = await kakaoLoginApi(token.accessToken);
+        User user = await UserApi.instance.me();
         if (result['status'] == 200) {
           await userP.insertUserData(
               user.id,
@@ -66,6 +66,7 @@ class KakaoLoginProvider with ChangeNotifier {
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           dynamic result = await kakaoLoginApi(token.accessToken);
+          User user = await UserApi.instance.me();
           if (result['status'] == 200) {
             await userP.insertUserData(
                 user.id,
@@ -84,6 +85,7 @@ class KakaoLoginProvider with ChangeNotifier {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         dynamic result = await kakaoLoginApi(token.accessToken);
+        User user = await UserApi.instance.me();
         if (result['status'] == 200) {
           await userP.insertUserData(
               user.id,

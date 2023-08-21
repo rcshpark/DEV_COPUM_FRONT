@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:copum_front_update/model/question_model.dart';
+import 'package:copum_front_update/provider/bottomNavigation_provider.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 
@@ -56,7 +57,6 @@ class QuestionProvider with ChangeNotifier {
           },
           body: jsonString);
       dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
-      print(body['status']);
       notifyListeners();
       if (body['status'] == 200) {
         return "success";

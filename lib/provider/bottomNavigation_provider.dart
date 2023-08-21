@@ -9,4 +9,9 @@ class BottomNavigationProvider with ChangeNotifier {
     _index = index;
     notifyListeners();
   }
+
+  resetIndex() {
+    _index = 0;
+    notifyListeners();
+  }
 }

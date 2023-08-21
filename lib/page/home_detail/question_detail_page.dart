@@ -77,7 +77,7 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
                 widget.viewCount,
                 widget.answerCount),
             Padding(
-              padding: const EdgeInsets.only(left: 40, top: 20, right: 40),
+              padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -139,18 +139,6 @@ class _QuestionDetailPageState extends State<QuestionDetailPage> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      // try {
-                      //   dynamic formatContent =
-                      //       p.answerModel.result!.aNSWER![index].cONTENT;
-                      //   var myJSON = jsonDecode(formatContent);
-                      //   Delta delta = Delta.fromJson(myJSON);
-                      //   _controller = QuillController(
-                      //       document: Document.fromDelta(delta),
-                      //       selection:
-                      //           const TextSelection.collapsed(offset: 0));
-                      //   p.answerModel.result!.aNSWER![index].cONTENT =
-                      //       delta.toString();
-                      // } catch (e) {}
                       String formatTime = formatDate(
                           p.answerModel.result!.aNSWER![index].cREATEDDTTM);
                       return answerCard(
@@ -192,7 +180,7 @@ Widget answerCard(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.only(right: 20, top: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -208,108 +196,111 @@ Widget answerCard(
           ],
         ),
       ),
-      Row(
-        children: [
-          SizedBox(
-            width: screenWidth * 0.85,
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => AnswerDetailPage(
-                            creator: answerCreator,
-                            time: time,
-                            content: answerContent,
-                            answerImage: answerImage))));
-              },
-              child: Card(
-                  color: const Color.fromARGB(255, 224, 224, 220),
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 15, bottom: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 40,
-                              width: 40,
-                              child:
-                                  Image.asset('assets/images/Service_name.png'),
-                            ),
-                            Text(questionCreator!,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 12))
-                          ],
-                        ),
-                        IgnorePointer(
-                          ignoring: true,
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 224, 224, 220),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            constraints: const BoxConstraints(
-                                minHeight: 100,
-                                minWidth: double.infinity,
-                                maxHeight: 200),
-                            child: QuillEditor(
-                              controller: QuillController(
-                                  document: document,
-                                  selection:
-                                      const TextSelection.collapsed(offset: 0)),
-                              scrollController: ScrollController(),
-                              scrollable: true,
-                              focusNode: focusNode,
-                              autoFocus: false,
-                              readOnly: true,
-                              showCursor: true,
-                              padding: const EdgeInsets.all(4),
-                              expands: true,
-                            ),
+      Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: Row(
+          children: [
+            SizedBox(
+              width: screenWidth * 0.75,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => AnswerDetailPage(
+                              creator: answerCreator,
+                              time: time,
+                              content: answerContent,
+                              answerImage: answerImage))));
+                },
+                child: Card(
+                    color: const Color.fromARGB(255, 224, 224, 220),
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 15, bottom: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 40,
+                                width: 40,
+                                child: Image.asset(
+                                    'assets/images/Service_name.png'),
+                              ),
+                              Text(questionCreator!,
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 12))
+                            ],
                           ),
-                        )
-                        // Text(
-                        //   questionTitle!,
-                        //   style:
-                        //       const TextStyle(color: Colors.grey, fontSize: 12),
-                        //   maxLines: 1,
-                        // ),
-                        // const SizedBox(
-                        //   height: 10,
-                        //
-                        // const Divider(
-                        //   height: 1,
-                        //   color: Colors.grey,
-                        // ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        // Text(
-                        //   "Content : ${answerContent!}",
-                        //   style: const TextStyle(
-                        //       color: Colors.black, fontSize: 16),
-                        //   maxLines: 2,
-                        //   overflow: TextOverflow.ellipsis,
-                        // ),
-                      ],
-                    ),
-                  )),
+                          IgnorePointer(
+                            ignoring: true,
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 224, 224, 220),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              constraints: const BoxConstraints(
+                                  minHeight: 100,
+                                  minWidth: double.infinity,
+                                  maxHeight: 200),
+                              child: QuillEditor(
+                                controller: QuillController(
+                                    document: document,
+                                    selection: const TextSelection.collapsed(
+                                        offset: 0)),
+                                scrollController: ScrollController(),
+                                scrollable: true,
+                                focusNode: focusNode,
+                                autoFocus: false,
+                                readOnly: true,
+                                showCursor: true,
+                                padding: const EdgeInsets.all(4),
+                                expands: true,
+                              ),
+                            ),
+                          )
+                          // Text(
+                          //   questionTitle!,
+                          //   style:
+                          //       const TextStyle(color: Colors.grey, fontSize: 12),
+                          //   maxLines: 1,
+                          // ),
+                          // const SizedBox(
+                          //   height: 10,
+                          //
+                          // const Divider(
+                          //   height: 1,
+                          //   color: Colors.grey,
+                          // ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                          // Text(
+                          //   "Content : ${answerContent!}",
+                          //   style: const TextStyle(
+                          //       color: Colors.black, fontSize: 16),
+                          //   maxLines: 2,
+                          //   overflow: TextOverflow.ellipsis,
+                          // ),
+                        ],
+                      ),
+                    )),
+              ),
             ),
-          ),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.more_horiz_outlined,
-                color: Colors.grey,
-              ))
-        ],
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.more_horiz_outlined,
+                  color: Colors.grey,
+                ))
+          ],
+        ),
       ),
       const SizedBox(
         height: 20,
