@@ -6,11 +6,13 @@ import 'package:copum_front_update/provider/login_provider.dart';
 import 'package:copum_front_update/provider/question_provider.dart';
 import 'package:copum_front_update/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  KakaoSdk.init(nativeAppKey: "ed5535e02148446b7b2068a4c04bed78");
+void main() async {
+  await dotenv.load(fileName: ".env");
+  KakaoSdk.init(nativeAppKey: dotenv.env["KAKAO_NATIVE_APP_KEY"]);
   runApp(const MyApp());
 }
 
